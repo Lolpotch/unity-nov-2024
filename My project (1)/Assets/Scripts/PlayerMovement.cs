@@ -24,10 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isBoosting)
         {
-            // Get input only if not boosting or on cooldown
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-            movement = movement.normalized;
+            MyInput();
         }
 
         // Check if Space is pressed to initiate boost
@@ -50,6 +47,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate()
+    {
+        Move();
+    }
+
+    void MyInput()
+    {
+        // Get input only if not boosting or on cooldown
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        movement = movement.normalized;
+    }
+
+    void Move()
     {
         if (isBoosting)
         {
