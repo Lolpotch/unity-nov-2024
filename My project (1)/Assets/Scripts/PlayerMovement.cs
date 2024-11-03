@@ -1,12 +1,19 @@
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    private Rigidbody2D rb;
+    public float boostSpeed = 10f;
+    public float boostDuration = 2f;
+    public float boostCooldown = 1f;  // Delay after boost ends
 
+    private Rigidbody2D rb;
     private Vector2 movement;
+    private bool isBoosting = false;
+    private bool isOnCooldown = false;
+    private float boostEndTime;
+    private float cooldownEndTime;
+    private Vector2 boostDirection;
 
     void Start()
     {
@@ -15,25 +22,58 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        MyInput();
+        if (!isBoosting)
+        {
+            // Get input only if not boosting or on cooldown
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            movement = movement.normalized;
+        }
+
+        // Check if Space is pressed to initiate boost
+        if (Input.GetKeyDown(KeyCode.Space) && movement != Vector2.zero && !isBoosting && !isOnCooldown)
+        {
+            StartBoost();
+        }
+
+        // Check if boost duration has ended
+        if (isBoosting && Time.time >= boostEndTime)
+        {
+            EndBoost();
+        }
+
+        // Check if cooldown period has ended
+        if (isOnCooldown && Time.time >= cooldownEndTime)
+        {
+            isOnCooldown = false;
+        }
     }
 
     void FixedUpdate()
     {
-        Move();
-        
+        if (isBoosting)
+        {
+            // Use locked boost direction while boosting
+            rb.velocity = boostDirection * boostSpeed * Time.fixedDeltaTime;
+        }
+        else
+        {
+            // Regular movement
+            rb.velocity = movement * moveSpeed * Time.fixedDeltaTime;
+        }
     }
 
-    void MyInput()
+    private void StartBoost()
     {
-        // Get raw input for WASD keys
-        movement.x = Input.GetAxisRaw("Horizontal"); // A/D or Left/Right
-        movement.y = Input.GetAxisRaw("Vertical");   // W/S or Up/Down
+        isBoosting = true;
+        boostEndTime = Time.time + boostDuration;
+        boostDirection = movement; // Lock the current movement direction
     }
 
-    void Move()
+    private void EndBoost()
     {
-        // Apply velocity based on movement input
-        rb.velocity = movement * moveSpeed * Time.fixedDeltaTime;
+        isBoosting = false;
+        isOnCooldown = true;
+        cooldownEndTime = Time.time + boostCooldown;
     }
 }
