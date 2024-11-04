@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float boostCooldown = 1f;  // Delay after boost ends
 
     private Rigidbody2D rb;
+    private PlayerCollision playerCollision;
     private Vector2 movement;
     private bool isBoosting = false;
     private bool isOnCooldown = false;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerCollision = GetComponent<PlayerCollision>();
     }
 
     void Update()
@@ -76,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private void StartBoost()
     {
         isBoosting = true;
+        playerCollision.SetIsBoosting(true);
         boostEndTime = Time.time + boostDuration;
         boostDirection = movement; // Lock the current movement direction
     }
@@ -83,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
     private void EndBoost()
     {
         isBoosting = false;
+        playerCollision.SetIsBoosting(false);
         isOnCooldown = true;
         cooldownEndTime = Time.time + boostCooldown;
     }
