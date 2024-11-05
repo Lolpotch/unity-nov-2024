@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
+    private PlayerMovement playerMovement;
     public float delay = .2f;  // Delay in seconds
     private bool isProcessing = true;  // Flag to prevent multiple coroutine calls
-    bool isBoosting = false;
+
+    void Start()
+    {
+        playerMovement = transform.GetComponent<PlayerMovement>();
+    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
         // Check if the other object has the "Enemy" tag
-        if (other.CompareTag("Enemy") && isProcessing && isBoosting)
+        if (other.CompareTag("Enemy") && isProcessing && playerMovement.GetIsBoosting())
         {
             Debug.Log("Hit Enemy");
             StartCoroutine(DelayedAction());
@@ -24,8 +29,4 @@ public class PlayerCollision : MonoBehaviour
         isProcessing = true;  // Reset flag
     }
 
-    public void SetIsBoosting(bool isBoost)
-    {
-        isBoosting = isBoost;
-    }
 }
