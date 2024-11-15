@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: 4382700773532249684}
   - component: {fileID: 5699637594240207301}
   - component: {fileID: 469004006874871970}
+  - component: {fileID: 5118686876194319413}
+  - component: {fileID: 1598308823820635282}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -171,6 +173,36 @@ MonoBehaviour:
   nozzle: {fileID: 6542670507155931386}
   shootDelay: 1
   bulletSpeed: 10
+--- !u!114 &5118686876194319413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802788284881230564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f3e7bb940b6a1a45be49fc537d6264e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffect: {fileID: 5755482922528869967, guid: d65e7dc19dd131046a81a5a6d887c773, type: 3}
+  destroyEffect: {fileID: 7804412715662720794, guid: c89b082662c237a4faa8eaebe7e8fbd0, type: 3}
+  lifetimeHit: 0.3
+  lifetimeDestroy: 1
+--- !u!114 &1598308823820635282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802788284881230564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca26325f695872e448438b1342274a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitCount: 5
+  hitCount: 0
 --- !u!1 &5398742511254449996
 GameObject:
   m_ObjectHideFlags: 0

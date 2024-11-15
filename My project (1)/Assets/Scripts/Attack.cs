@@ -23,6 +23,7 @@ public class Attack : MonoBehaviour
         if (other.CompareTag("Enemy") && isProcessing) //&& playerMovement.GetIsBoosting())
         {
             Debug.Log("Hit Enemy");
+            other.GetComponent<EnemyHealth>().PlayerHit();
             other.GetComponent<EnemyParticle>().SpawnHitEffect();
             StartCoroutine(DelayedAction());
         }
