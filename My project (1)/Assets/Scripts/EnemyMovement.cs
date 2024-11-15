@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -10,48 +9,49 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveDirection;
     private bool isMoving = false;
+    private float timer = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        StartCoroutine(MovementRoutine());
+        SetRandomMoveDirection();
     }
 
-    private IEnumerator MovementRoutine()
+    void Update()
     {
-        while (true)
-        {
-            // Move in a random direction
-            yield return StartCoroutine(MoveRandomDirection());
+        // Increment timer by deltaTime
+        timer += Time.deltaTime;
 
-            // Stop for a while
-            yield return StartCoroutine(StopForDuration());
+        if (isMoving)
+        {
+            // Check if move duration has elapsed
+            if (timer >= moveDuration)
+            {
+                isMoving = false;
+                timer = 0f;
+                rb.velocity = Vector2.zero; // Stop movement
+            }
+            else
+            {
+                rb.velocity = moveDirection * moveSpeed * Time.deltaTime; // Move in current direction
+            }
+        }
+        else
+        {
+            // Check if stop duration has elapsed
+            if (timer >= stopDuration)
+            {
+                isMoving = true;
+                timer = 0f;
+                SetRandomMoveDirection(); // Set a new move direction
+            }
         }
     }
 
-    private IEnumerator MoveRandomDirection()
+    private void SetRandomMoveDirection()
     {
-        isMoving = true;
-
         // Generate a random direction
         float angle = Random.Range(0f, 360f);
         moveDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
-
-        float moveEndTime = Time.time + moveDuration;
-        while (Time.time < moveEndTime)
-        {
-            rb.velocity = moveDirection * moveSpeed * Time.deltaTime    ;
-            yield return null;  // Continue moving for the duration
-        }
-
-        // Stop the enemy
-        rb.velocity = Vector2.zero;
-        isMoving = false;
-    }
-
-    private IEnumerator StopForDuration()
-    {
-        // Wait for the stop duration
-        yield return new WaitForSeconds(stopDuration);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     private PlayerMovement playerMovement;
-    public float delay = .2f;  // Delay in seconds
+    public float delay = .1f;  // Delay in seconds
     private bool isProcessing = true;  // Flag to prevent multiple coroutine calls
 
     void Start()
@@ -12,12 +12,18 @@ public class Attack : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
     }
 
+    void OnEnable()
+    {
+        isProcessing = true;
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         // Check if the other object has the "Enemy" tag
-        if (other.CompareTag("Enemy") && isProcessing && playerMovement.GetIsBoosting())
+        if (other.CompareTag("Enemy") && isProcessing) //&& playerMovement.GetIsBoosting())
         {
             Debug.Log("Hit Enemy");
+            other.GetComponent<EnemyParticle>().SpawnHitEffect();
             StartCoroutine(DelayedAction());
         }
     }

@@ -14,10 +14,12 @@ public class PlayerMovement : MonoBehaviour
     private float boostEndTime;
     private float cooldownEndTime;
     private Vector2 boostDirection;
+    private PlayerDash playerDash;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerDash = GetComponent<PlayerDash>();
     }
 
     void Update()
@@ -31,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && movement != Vector2.zero && !isBoosting && !isOnCooldown)
         {
             StartBoost();
+            playerDash.StartCoroutineDash();
         }
 
         // Check if boost duration has ended
