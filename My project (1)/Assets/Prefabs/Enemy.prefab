@@ -89,10 +89,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -157,6 +157,7 @@ MonoBehaviour:
   moveSpeed: 600
   moveDuration: 0.6
   stopDuration: 0.5
+  isFollowing: 0
 --- !u!114 &469004006874871970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

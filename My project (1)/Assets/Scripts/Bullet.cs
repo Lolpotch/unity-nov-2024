@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject playerHitEffect;
     public float lifetime = 3.0f; // Lifetime of the bullet in seconds
 
     void Start()
@@ -18,6 +19,7 @@ public class Bullet : MonoBehaviour
             if (!collision.GetComponent<PlayerMovement>().GetIsBoosting())
             {
                 Debug.Log("Hit player");
+                GameObject particle = Instantiate(playerHitEffect, transform.position, Quaternion.identity);
                 Destroy(gameObject); // Destroy the bullet    
             }
             

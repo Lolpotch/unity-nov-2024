@@ -161,4 +161,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ac626e94659f94b8fe5d566e232fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHitEffect: {fileID: 4126145069773252024, guid: d9d18f1b6397c8f4a853e501b022fa61, type: 3}
   lifetime: 3
