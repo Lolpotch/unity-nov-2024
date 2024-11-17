@@ -3,25 +3,56 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;             // Speed of enemy movement
-    public float moveDuration = 2f;          // Duration to move in a random direction
-    public float stopDuration = 1f;          // Duration to stop before moving again
+    public float moveDuration = 2f;         // Duration to move in a random direction
+    public float stopDuration = 1f;         // Duration to stop before moving again
+    public bool isFollowing = false;        // If true, follow the player instead of moving randomly
 
     private Rigidbody2D rb;
     private Vector2 moveDirection;
     private bool isMoving = false;
     private float timer = 0f;
+    private Transform playerTransform;      // Reference to the player's transform
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        SetRandomMoveDirection();
+
+        // Find the player object by tag
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+        }
+
+        if (!isFollowing)
+        {
+            SetRandomMoveDirection();
+        }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // Increment timer by deltaTime
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
 
+        if (isFollowing && playerTransform != null)
+        {
+            FollowPlayer();
+        }
+        else
+        {
+            RandomMovement();
+        }
+    }
+
+    private void FollowPlayer()
+    {
+        // Calculate direction towards the player
+        Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
+        rb.velocity = directionToPlayer * moveSpeed * Time.fixedDeltaTime;
+    }
+
+    private void RandomMovement()
+    {
         if (isMoving)
         {
             // Check if move duration has elapsed
@@ -33,7 +64,7 @@ public class EnemyMovement : MonoBehaviour
             }
             else
             {
-                rb.velocity = moveDirection * moveSpeed * Time.deltaTime; // Move in current direction
+                rb.velocity = moveDirection * moveSpeed * Time.fixedDeltaTime; // Move in current direction
             }
         }
         else
